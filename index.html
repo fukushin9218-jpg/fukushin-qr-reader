@@ -77,9 +77,31 @@
             qrbox: { width: 250, height: 250 }
           },
           function(decodedText) {
-            message.textContent =
-              "読み取り成功：" + decodedText;
-          },
+  message.textContent = "受付しています…";
+
+  const gasUrl =
+    "https://script.google.com/macros/s/AKfycbzs4I41S1LJ0gAoc0UOE_PxE3yxMwrIlebBp34DT83bXARjN5iqtKPlxUzhWrB5L1aP/exec";
+
+  fetch(gasUrl + "?studentId=" + encodeURIComponent(decodedText))
+    .then(response => response.json())
+    .then(result => {
+      if (result.ignored) {
+        message.textContent = result.message;
+        return;
+      }
+
+      if (!result.success) {
+        message.textContent = result.message;
+        return;
+      }
+
+      message.textContent =
+        result.name + "さん　" + result.attendanceType + "しました";
+    })
+    .catch(error => {
+      message.textContent = "通信エラー：" + error;
+    });
+},
           function() {
           }
         );
