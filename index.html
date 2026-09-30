@@ -71,7 +71,7 @@
         message.textContent = "カメラを起動しています…";
 
         await scanner.start(
-          { facingMode: "environment" },
+          { facingMode: "user" },
           {
             fps: 10,
             qrbox: { width: 250, height: 250 }
