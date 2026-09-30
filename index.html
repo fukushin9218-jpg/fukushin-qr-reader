@@ -4,10 +4,95 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>福岡進学塾 QR受付</title>
+
+  <script src="https://unpkg.com/html5-qrcode"></script>
+
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 30px 15px;
+      background: #f5f7fa;
+    }
+
+    h1 {
+      font-size: 32px;
+    }
+
+    h2 {
+      font-size: 24px;
+    }
+
+    #reader {
+      width: 100%;
+      max-width: 500px;
+      margin: 25px auto;
+      background: white;
+    }
+
+    button {
+      font-size: 22px;
+      padding: 15px 30px;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    #message {
+      margin-top: 20px;
+      font-size: 22px;
+      font-weight: bold;
+    }
+  </style>
 </head>
+
 <body>
+
   <h1>福岡進学塾</h1>
   <h2>QRコード受付</h2>
-  <p>QR読み取りページのテストです。</p>
+
+  <button onclick="startCamera()">カメラを起動</button>
+
+  <div id="reader"></div>
+
+  <div id="message">
+    カメラを起動してください
+  </div>
+
+  <script>
+    let scanner = null;
+
+    async function startCamera() {
+      const message = document.getElementById("message");
+
+      try {
+        scanner = new Html5Qrcode("reader");
+
+        message.textContent = "カメラを起動しています…";
+
+        await scanner.start(
+          { facingMode: "environment" },
+          {
+            fps: 10,
+            qrbox: { width: 250, height: 250 }
+          },
+          function(decodedText) {
+            message.textContent =
+              "読み取り成功：" + decodedText;
+          },
+          function() {
+          }
+        );
+
+        message.textContent =
+          "QRコードをカメラにかざしてください";
+
+      } catch (error) {
+        message.textContent =
+          "カメラエラー：" + error;
+      }
+    }
+  </script>
+
 </body>
 </html>
