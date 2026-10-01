@@ -135,6 +135,7 @@ isProcessing = true;
 ).then(response => response.json())
 .then(result => {
   if (result.success) {
+    playSuccessSound();
     message.textContent =
       result.name + "さん " + result.attendanceType + "しました";
   } else {
@@ -156,6 +157,32 @@ isProcessing = true;
 
   } catch (error) {
     message.textContent = "カメラエラー：" + error;
+  }
+}
+    function playSuccessSound() {
+  try {
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    const audioCtx = new AudioContext();
+
+    const oscillator = audioCtx.createOscillator();
+    const gainNode = audioCtx.createGain();
+
+    oscillator.connect(gainNode);
+    gainNode.connect(audioCtx.destination);
+
+    oscillator.frequency.setValueAtTime(880, audioCtx.currentTime);
+    oscillator.type = "sine";
+
+    gainNode.gain.setValueAtTime(0.25, audioCtx.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(
+      0.01,
+      audioCtx.currentTime + 0.25
+    );
+
+    oscillator.start();
+    oscillator.stop(audioCtx.currentTime + 0.25);
+  } catch (e) {
+    console.log("音声を再生できませんでした");
   }
 }
  window.addEventListener('load', function() {
