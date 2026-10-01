@@ -109,6 +109,12 @@
     let scanner = null;
 let isProcessing = false;
     async function startCamera() {
+      if (!audioCtx) {
+  audioCtx = new AudioContextClass();
+}
+if (audioCtx.state === "suspended") {
+  await audioCtx.resume();
+}
       const message = document.getElementById("message");
 
       try {
@@ -159,10 +165,17 @@ isProcessing = true;
     message.textContent = "カメラエラー：" + error;
   }
 }
+    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+let audioCtx = null;
     function playSuccessSound() {
   try {
-    const AudioContext = window.AudioContext || window.webkitAudioContext;
-    const audioCtx = new AudioContext();
+   if (!audioCtx) {
+  audioCtx = new AudioContextClass();
+}
+
+if (audioCtx.state === "suspended") {
+  audioCtx.resume();
+}
 
     const oscillator = audioCtx.createOscillator();
     const gainNode = audioCtx.createGain();
