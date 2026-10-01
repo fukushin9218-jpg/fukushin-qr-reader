@@ -82,21 +82,25 @@
   const gasUrl =
     "https://script.google.com/macros/s/AKfycbzs4I41S1LJ0gAocOUOE_PxE3yxMwrIIebBp34DT83bXARjN5iqtKPlxUzhWrB5L1aP/exec";
 
-  window.location.href =
-    gasUrl + "?studentId=" + encodeURIComponent(decodedText);
-},
-          function() {
-          }
-        );
+  fetch(
+  gasUrl + "?api=attendance&studentId=" + encodeURIComponent(decodedText)
+).then(response => response.json())
+.then(result => {
+  if (result.success) {
+    message.textContent =
+      result.name + "さん " + result.attendanceType + "しました";
+  } else {
+    message.textContent = result.message;
+  }
 
-        message.textContent =
-          "QRコードをカメラにかざしてください";
+  setTimeout(function() {
+    message.textContent = "QRコードをカメラにかざしてください";
+  }, 3000);
+})
+.catch(error => {
+  message.textContent = "通信エラー：" + error;
+});
 
-      } catch (error) {
-        message.textContent =
-          "カメラエラー：" + error;
-      }
-    }
  window.addEventListener('load', function() {
   startCamera();
 });
