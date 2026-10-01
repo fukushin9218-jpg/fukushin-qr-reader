@@ -100,7 +100,15 @@
 .catch(error => {
   message.textContent = "通信エラー：" + error;
 });
+    },
+    function() {}
+  );
+            message.textContent = "QRコードをカメラにかざしてください";
 
+  } catch (error) {
+    message.textContent = "カメラエラー：" + error;
+  }
+}
  window.addEventListener('load', function() {
   startCamera();
 });
