@@ -61,7 +61,7 @@
 
   <script>
     let scanner = null;
-
+let isProcessing = false;
     async function startCamera() {
       const message = document.getElementById("message");
 
@@ -77,7 +77,9 @@
             qrbox: { width: 250, height: 250 }
           },
           function(decodedText) {
-  message.textContent = "受付しています…";
+if (isProcessing) return;
+isProcessing = true;
+            message.textContent = "受付しています…";
 
   const gasUrl =
     "https://script.google.com/macros/s/AKfycbzs4I41S1LJ0gAocOUOE_PxE3yxMwrIIebBp34DT83bXARjN5iqtKPlxUzhWrB5L1aP/exec";
@@ -95,6 +97,7 @@
 
   setTimeout(function() {
     message.textContent = "QRコードをカメラにかざしてください";
+    isProcessing = false;
   }, 3000);
 })
 .catch(error => {
