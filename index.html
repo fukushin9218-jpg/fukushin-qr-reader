@@ -98,7 +98,7 @@
   <h2>QRコード受付</h2>
 
   <button onclick="startCamera()">カメラを起動</button>
-<button onclick="playSuccessSound()">音声テスト</button>
+
   <div id="reader"></div>
 
   <div id="message">
@@ -198,9 +198,6 @@ if (audioCtx.state === "suspended") {
     console.log("音声を再生できませんでした");
   }
 }
- window.addEventListener('load', function() {
-  startCamera();
-});
   </script>
 
 </body>
