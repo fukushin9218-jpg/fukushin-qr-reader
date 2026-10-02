@@ -180,7 +180,13 @@ isProcessing = true;
   }, 3000);
 })
 .catch(error => {
-  message.textContent = "通信エラー：" + error;
+  console.error(error);
+  message.textContent = "通信に失敗しました。もう一度QRコードをかざしてください";
+
+  setTimeout(function() {
+    message.textContent = "QRコードをカメラにかざしてください";
+    isProcessing = false;
+  }, 3000);
 });
     },
     function() {}
