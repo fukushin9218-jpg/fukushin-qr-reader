@@ -228,7 +228,7 @@ width: 260px;
   <h1 class="school-title">福岡進学塾</h1>
 <h2 class="reception-title">入退室受付</h2>
 
-  <button onclick="startCamera()">カメラを起動</button>
+  <button id="camera-button" onclick="startCamera()">カメラを起動</button>
 
   <div id="reader"></div>
 
@@ -317,6 +317,7 @@ resultReason.style.visibility = "visible";
     },
     function() {}
   );
+        document.getElementById("camera-button").style.display = "none";
             message.textContent = "QRコードをカメラにかざしてください";
 
   } catch (error) {
