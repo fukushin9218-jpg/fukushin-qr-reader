@@ -325,34 +325,39 @@ resultReason.style.visibility = "visible";
 }
     const AudioContextClass = window.AudioContext || window.webkitAudioContext;
 let audioCtx = null;
-    function playSuccessSound() {
+function playSuccessSound() {
   try {
-   if (!audioCtx) {
-  audioCtx = new AudioContextClass();
-}
+    if (!audioCtx) {
+      audioCtx = new AudioContextClass();
+    }
 
-if (audioCtx.state === "suspended") {
-  audioCtx.resume();
-}
+    if (audioCtx.state === "suspended") {
+      audioCtx.resume();
+    }
 
-    const oscillator = audioCtx.createOscillator();
-    const gainNode = audioCtx.createGain();
+    const now = audioCtx.currentTime;
+    const notes = [660, 880, 1100];
 
-    oscillator.connect(gainNode);
-    gainNode.connect(audioCtx.destination);
+    notes.forEach((frequency, index) => {
+      const oscillator = audioCtx.createOscillator();
+      const gainNode = audioCtx.createGain();
 
-    oscillator.frequency.setValueAtTime(660, audioCtx.currentTime);
-oscillator.frequency.setValueAtTime(880, audioCtx.currentTime + 0.13);
-    oscillator.type = "sine";
+      oscillator.connect(gainNode);
+      gainNode.connect(audioCtx.destination);
 
-    gainNode.gain.setValueAtTime(0.25, audioCtx.currentTime);
-    gainNode.gain.exponentialRampToValueAtTime(
-      0.01,
-      audioCtx.currentTime + 0.25
-    );
+      const startTime = now + index * 0.12;
 
-    oscillator.start();
-    oscillator.stop(audioCtx.currentTime + 0.25);
+      oscillator.type = "sine";
+      oscillator.frequency.setValueAtTime(frequency, startTime);
+
+      gainNode.gain.setValueAtTime(0.001, startTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.28, startTime + 0.02);
+      gainNode.gain.exponentialRampToValueAtTime(0.001, startTime + 0.18);
+
+      oscillator.start(startTime);
+      oscillator.stop(startTime + 0.2);
+    });
+
   } catch (e) {
     console.log("音声を再生できませんでした");
   }
