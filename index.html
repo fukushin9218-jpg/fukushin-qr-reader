@@ -208,7 +208,7 @@ font-weight: 900;
   right: 20px;
   width: 200px;
   color: #e53935;
-  font-size: 22px;
+  font-size: 28px;
   font-weight: 900;
   text-align: center;
   line-height: 1.3;
@@ -290,7 +290,10 @@ resultSign.style.fontSize = "110px";
 resultSign.style.visibility = "visible";
     message.textContent = result.message;
     const resultReason = document.getElementById("result-reason");
-resultReason.textContent = result.message;
+resultReason.textContent =
+  result.message.includes("5分以内")
+    ? "5分以内のため\n受付しません"
+    : result.message;
 resultReason.style.visibility = "visible";
   }
 
