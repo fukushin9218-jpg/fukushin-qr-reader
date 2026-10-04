@@ -202,6 +202,19 @@ font-weight: 900;
      font-size: 50px;
      visibility: hidden;
 }
+   #result-reason {
+  position: fixed;
+  top: 170px;
+  right: 20px;
+  width: 200px;
+  color: #e53935;
+  font-size: 22px;
+  font-weight: 900;
+  text-align: center;
+  line-height: 1.3;
+  z-index: 10;
+  visibility: hidden;
+}
  </style>
 </head>
 
@@ -210,6 +223,7 @@ font-weight: 900;
   <img src="動画②.png" class="character cat-teacher" alt="猫先生">
   <img src="動画③.png" class="character owl-teacher" alt="フクロウ先生">
   <div id="result-sign"></div>
+  <div id="result-reason"></div>
   <h1 class="school-title">福岡進学塾</h1>
 <h2 class="reception-title">入退室受付</h2>
 
@@ -260,22 +274,29 @@ isProcessing = true;
     const resultSign = document.getElementById("result-sign");
     resultSign.style.borderColor = "#22a447";
 resultSign.style.color = "#0757b7";
+    resultSign.style.fontSize = "50px";
 resultSign.textContent = result.attendanceType;
 resultSign.style.visibility = "visible";
+    document.getElementById("result-reason").style.visibility = "hidden";
     playSuccessSound();
     message.textContent =
       result.name + "さん " + result.attendanceType + "しました";
   } else {
     const resultSign = document.getElementById("result-sign");
-    resultSign.textContent = "×";
-resultSign.style.borderColor = "#e53935";
+ resultSign.textContent = "×";
+resultSign.style.borderColor = "transparent";
 resultSign.style.color = "#e53935";
-    resultSign.style.visibility = "visible";
+resultSign.style.fontSize = "110px";
+resultSign.style.visibility = "visible";
     message.textContent = result.message;
+    const resultReason = document.getElementById("result-reason");
+resultReason.textContent = result.message;
+resultReason.style.visibility = "visible";
   }
 
   setTimeout(function() {
     document.getElementById("result-sign").style.visibility = "hidden";
+    document.getElementById("result-reason").style.visibility = "hidden";
     message.textContent = "QRコードをカメラにかざしてください";
     isProcessing = false;
   }, 3000);
