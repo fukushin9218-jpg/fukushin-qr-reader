@@ -341,7 +341,8 @@ if (audioCtx.state === "suspended") {
     oscillator.connect(gainNode);
     gainNode.connect(audioCtx.destination);
 
-    oscillator.frequency.setValueAtTime(880, audioCtx.currentTime);
+    oscillator.frequency.setValueAtTime(660, audioCtx.currentTime);
+oscillator.frequency.setValueAtTime(880, audioCtx.currentTime + 0.13);
     oscillator.type = "sine";
 
     gainNode.gain.setValueAtTime(0.25, audioCtx.currentTime);
